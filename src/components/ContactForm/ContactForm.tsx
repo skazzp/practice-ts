@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { IContact } from '../../types/Contacts';
 import { nanoid } from 'nanoid';
+import { Btn, Form } from './ContactForm.styled';
 
 interface IProps {
   saveContacts: (contact: IContact) => void;
@@ -37,7 +38,7 @@ const ContactForm = ({ saveContacts, contacts }: IProps) => {
     resetForm();
   };
   return (
-    <form action="submit" onSubmit={handleFormSubmit}>
+    <Form action="submit" onSubmit={handleFormSubmit}>
       <label htmlFor="name">
         <p>Name</p>
         <input
@@ -62,8 +63,8 @@ const ContactForm = ({ saveContacts, contacts }: IProps) => {
           required
         />
       </label>
-      <button type="submit">Add contact</button>
-    </form>
+      <Btn type="submit">Add contact</Btn>
+    </Form>
   );
 };
 

@@ -39,7 +39,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="App">
+    <div style={{ marginLeft: '20px' }}>
       <h1>Phonebook</h1>
       <ContactForm saveContacts={saveContacts} contacts={contacts} />
       <h2>Contacts</h2>
