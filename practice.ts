@@ -116,7 +116,7 @@ house.openDoor(person1.getKey());
 
 house.comeIn(person1);
 
-////////////////////////////////
+/////////////////////////////////////////////////////////////
 
 function getPromise(): Promise<(string | number)[]> {
   return new Promise(resolve => {
@@ -162,3 +162,5 @@ class Page extends Component<Props> {
     console.log(this.props.title);
   }
 }
+
+/////////////////////////////////////////////////////////////
