@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router';
 import ContactForm from './components/ContactForm/ContactForm';
 import ContactList from './components/ContactList/ContactList';
 import { IContact } from './types/Contacts';
@@ -7,43 +8,26 @@ import { useSelector } from 'react-redux';
 import { contactsSelector } from './redux/contacts/contactsSelectors';
 import { useDispatch } from 'react-redux';
 import { addFilter } from './redux/filter/filterSlice';
-import { addContactReducer, removeContactReducer } from './redux/contacts/contactsSlice';
 
-import { filterSelector } from './redux/filter/filterSelector';
+import { PrivateRoute } from './components/PrivateRoute';
+import { PublicRoute } from './components/PublicRoute';
+import Contacts from './pages/Contacts';
 
 const App: React.FC = () => {
-  const contacts = useSelector(contactsSelector);
-  const filter = useSelector(filterSelector);
-  const dispatch = useDispatch();
-
-  const filterContacts = () => {
-    const filterNormalized = filter.toLowerCase();
-    return !filter
-      ? contacts
-      : contacts.filter(elem => elem.name.toLowerCase().includes(filterNormalized));
-  };
-
-  const saveContacts = (contact: IContact) => {
-    dispatch(addContactReducer(contact));
-  };
-
-  const removeContact = (id: string) => {
-    dispatch(removeContactReducer(id));
-  };
-
-  const getFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    dispatch(addFilter(value));
-  };
-
   return (
-    <div style={{ marginLeft: '20px' }}>
-      <h1>Phonebook</h1>
-      <ContactForm saveContacts={saveContacts} contacts={contacts} />
-      <h2>Contacts</h2>
-      <Filter setFilter={getFilter} filterState={filter} />
-      <ContactList filterContacts={filterContacts} removeContact={removeContact} />
-    </div>
+    <>
+      {/* <Navigation />
+      {isLoading ? (
+        <div>Loading</div>
+      ) : ( */}
+      <Routes>
+        {/* <Route path="/login" element={<PublicRoute component={<Login />} />} /> */}
+        {/* <Route path="/register" element={<PublicRoute component={<Registration />} />} /> */}
+        <Route path="/contacts" element={<PrivateRoute component={<Contacts />} />} />
+        <Route path="*" element={<PublicRoute component={<Navigate to="/login" />} />} />
+      </Routes>
+      {/* )} */}
+    </>
   );
 };
 

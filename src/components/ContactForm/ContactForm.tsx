@@ -1,16 +1,22 @@
 import { useState } from 'react';
-import { IContact } from '../../types/Contacts';
+// import { IContact } from '../../types/Contacts';
 import { nanoid } from 'nanoid';
 import { Btn, Form } from './ContactForm.styled';
+import { useDispatch } from 'react-redux';
+import { addContactReducer } from '../../redux/contacts/contactsSlice';
+import { contactsSelector } from '../../redux/contacts/contactsSelectors';
+import { useSelector } from 'react-redux';
 
-interface IProps {
-  saveContacts: (contact: IContact) => void;
-  contacts: IContact[];
-}
-
-const ContactForm = ({ saveContacts, contacts }: IProps) => {
+// interface IProps {
+//   saveContacts: (contact: IContact) => void;
+//   contacts: IContact[];
+// }
+//  { saveContacts, contacts }: IProps
+const ContactForm = () => {
   const [name, setName] = useState<string>('');
   const [number, setNumber] = useState<string>('');
+  const contacts = useSelector(contactsSelector);
+  const dispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'name') setName(() => e.target.value);
@@ -34,7 +40,7 @@ const ContactForm = ({ saveContacts, contacts }: IProps) => {
     if (contacts.filter(elem => elem.name === name).length) {
       return alert(`${name} is already in contacts!`);
     }
-    saveContacts(contact);
+    dispatch(addContactReducer(contact));
     resetForm();
   };
   return (
