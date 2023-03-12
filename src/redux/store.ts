@@ -15,6 +15,7 @@ import {
 } from 'redux-persist';
 import { useDispatch } from 'react-redux';
 import { contactsReducer } from './contacts/contactsSlice';
+import filterReducer from './filter/filterSlice';
 
 const authPersistConfig = {
   key: 'auth',
@@ -25,7 +26,7 @@ const authPersistConfig = {
 const rootReducer = combineReducers({
   //   auth: persistReducer(authPersistConfig, authReducer),
   contacts: contactsReducer,
-  //   filter: filterReducer,
+  filter: filterReducer,
 });
 export type RootState = ReturnType<typeof rootReducer>;
 

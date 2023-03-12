@@ -3,15 +3,19 @@ import ContactForm from './components/ContactForm/ContactForm';
 import ContactList from './components/ContactList/ContactList';
 import { IContact } from './types/Contacts';
 import Filter from './components/Filter/Filter';
+import { useSelector } from 'react-redux';
+import { contactsSelector } from './redux/contacts/contactsSelectors';
+import { useDispatch } from 'react-redux';
+import { addFilter } from './redux/filter/filterSlice';
+import { addContactReducer, removeContactReducer } from './redux/contacts/contactsSlice';
+
+import { filterSelector } from './redux/filter/filterSelector';
 
 const App: React.FC = () => {
-  const [contacts, setContacts] = useState<IContact[]>([
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  ]);
-  const [filter, setFilter] = useState<string>('');
+  const contacts = useSelector(contactsSelector);
+  const filter = useSelector(filterSelector);
+  const dispatch = useDispatch();
+
   const filterContacts = () => {
     const filterNormalized = filter.toLowerCase();
     return !filter
@@ -20,22 +24,16 @@ const App: React.FC = () => {
   };
 
   const saveContacts = (contact: IContact) => {
-    setContacts(prevContacts => {
-      return [...prevContacts, contact];
-    });
+    dispatch(addContactReducer(contact));
   };
 
   const removeContact = (id: string) => {
-    setContacts(prevContacts => {
-      return prevContacts.filter(contact => contact.id !== id);
-    });
+    dispatch(removeContactReducer(id));
   };
 
   const getFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setFilter(() => {
-      return value;
-    });
+    dispatch(addFilter(value));
   };
 
   return (
