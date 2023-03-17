@@ -10,5 +10,4 @@ interface IProps {
 export const PrivateRoute = ({ component }: IProps) => {
   const isLoggedIn = useSelector(getIsloggedIn);
   return isLoggedIn ? component : <Navigate to="/login" />;
-  // return component;
 };

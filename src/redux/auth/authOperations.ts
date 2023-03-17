@@ -12,10 +12,15 @@ const token = {
     axios.defaults.headers.common.Authorization = '';
   },
 };
+
+interface UserToAuth {
+  name?: string;
+  email: string;
+  password: string;
+}
 interface User {
   name: string;
   email: string;
-  password: string;
 }
 
 interface AuthResponse {
@@ -23,7 +28,7 @@ interface AuthResponse {
   token: string;
 }
 
-export const register = createAsyncThunk<AuthResponse, User, { state: RootState }>(
+export const register = createAsyncThunk<AuthResponse, UserToAuth, { state: RootState }>(
   'auth/register',
   async (user, thunkAPI) => {
     try {
@@ -37,7 +42,7 @@ export const register = createAsyncThunk<AuthResponse, User, { state: RootState 
   }
 );
 
-export const login = createAsyncThunk<AuthResponse, User, { state: RootState }>(
+export const login = createAsyncThunk<AuthResponse, UserToAuth, { state: RootState }>(
   'auth/login',
   async (user, thunkAPI) => {
     try {

@@ -12,5 +12,4 @@ export const PublicRoute = ({ component }: IProps) => {
   // const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
   const isLoggedIn = useAppSelector(getIsloggedIn);
   return !isLoggedIn ? component : <Navigate to="/contacts" />;
-  // return component;
 };

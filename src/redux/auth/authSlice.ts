@@ -45,12 +45,32 @@ const authSlice = createSlice({
       state.error = null;
       state.isLoggedIn = false;
     });
+    //todo action type
     builder.addCase(register.rejected, (state, action: PayloadAction<any>) => {
       state.isLoading = false;
       state.error = action.payload;
       state.isLoggedIn = false;
     });
     builder.addCase(register.fulfilled, (state, action) => {
+      state.error = null;
+      state.isLoading = false;
+      state.isLoggedIn = true;
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+    });
+
+    builder.addCase(login.pending, (state, action) => {
+      state.isLoading = true;
+      state.error = null;
+      state.isLoggedIn = false;
+    });
+    //todo action type
+    builder.addCase(login.rejected, (state, action: PayloadAction<any>) => {
+      state.isLoading = false;
+      state.error = action.payload;
+      state.isLoggedIn = false;
+    });
+    builder.addCase(login.fulfilled, (state, action) => {
       state.error = null;
       state.isLoading = false;
       state.isLoggedIn = true;

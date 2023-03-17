@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { login } from '../../redux/auth/authOperations';
+import { useAppDispatch } from '../../redux/store';
 // import { login } from 'redux/auth/operations';
 import { Container, Form, Label } from './Login.styled';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     switch (e.target.name) {
@@ -21,7 +23,7 @@ const Login = () => {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const user = { email, password };
-    // dispatch(login(user));
+    dispatch(login(user));
     console.log(user);
   };
   return (
