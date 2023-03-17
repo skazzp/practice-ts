@@ -18,7 +18,12 @@ interface User {
   password: string;
 }
 
-export const register = createAsyncThunk<any, User, { state: RootState }>(
+interface AuthResponse {
+  user: User;
+  token: string;
+}
+
+export const register = createAsyncThunk<AuthResponse, User, { state: RootState }>(
   'auth/register',
   async (user, thunkAPI) => {
     try {
@@ -32,30 +37,36 @@ export const register = createAsyncThunk<any, User, { state: RootState }>(
   }
 );
 
-export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
-  try {
-    const { data } = await axios.post(`/users/login`, user);
-    token.set(data.token);
-    // console.log('login response', data);
-    return data;
-  } catch (error) {
-    if (error instanceof Error) return thunkAPI.rejectWithValue(error.message);
+export const login = createAsyncThunk<AuthResponse, User, { state: RootState }>(
+  'auth/login',
+  async (user, thunkAPI) => {
+    try {
+      const { data } = await axios.post(`/users/login`, user);
+      token.set(data.token);
+      console.log('login response', data);
+      return data;
+    } catch (error) {
+      if (error instanceof Error) return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
 
-export const logout = createAsyncThunk('auth/logout', async (data, thunkAPI) => {
-  try {
-    await axios.post(`/users/logout`);
-    token.unset();
-  } catch (error) {
-    if (error instanceof Error) return thunkAPI.rejectWithValue(error.message);
+export const logout = createAsyncThunk<void, void, { state: RootState }>(
+  'auth/logout',
+  async (_, thunkAPI) => {
+    try {
+      await axios.post(`/users/logout`);
+      token.unset();
+    } catch (error) {
+      if (error instanceof Error) return thunkAPI.rejectWithValue(error.message);
+    }
   }
-});
+);
 
-export const getCurrentUser = createAsyncThunk<any, User, { state: RootState }>(
+export const getCurrentUser = createAsyncThunk<AuthResponse, User, { state: RootState }>(
   'auth/refresh',
-    async (_, thunkAPI) => {
-        //   const { auth } = thunkAPI.getState();
+  async (_, thunkAPI) => {
+    //   const { auth } = thunkAPI.getState();
     const authState = thunkAPI.getState().auth;
     if (!authState.token) {
       // console.log('no token', authState);
@@ -65,7 +76,7 @@ export const getCurrentUser = createAsyncThunk<any, User, { state: RootState }>(
     token.set(authState.token);
     try {
       const { data } = await axios.get(`/users/current`);
-      // console.log('get resp', data);
+      console.log('get resp', data);
       return data;
     } catch (error) {
       if (error instanceof Error) return thunkAPI.rejectWithValue(error.message);

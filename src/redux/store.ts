@@ -1,7 +1,10 @@
-// import filterReducer from './filterSlice';
-// import contactsReducer from './contactsSlice';
-// import authReducer from './auth/slice';
-import { Action, combineReducers, configureStore, ThunkAction } from '@reduxjs/toolkit';
+import {
+  Action,
+  combineReducers,
+  configureStore,
+  ThunkAction,
+  ThunkDispatch,
+} from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
 import {
   persistStore,
@@ -13,9 +16,11 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import { useDispatch } from 'react-redux';
+import { TypedUseSelectorHook, useDispatch } from 'react-redux';
 import { contactsReducer } from './contacts/contactsSlice';
 import filterReducer from './filter/filterSlice';
+import { authReducer } from './auth/authSlice';
+import { useSelector } from 'react-redux';
 
 const authPersistConfig = {
   key: 'auth',
@@ -43,7 +48,10 @@ export const store = configureStore({
   devTools: process.env.NODE_ENV === 'development',
 });
 
+export type AppThunk<RT = void> = ThunkAction<Promise<RT>, RootState, unknown, Action>;
+export type AppThunkDispatch = ThunkDispatch<RootState, void, Action>;
+export const useAppDispatch = () => useDispatch<AppThunkDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export type AppDispatch = typeof store.dispatch;
-export const useAppDispatch = () => useDispatch();
-export type AppThunk = ThunkAction<void, RootState, unknown, Action>;
+
 export const persistor = persistStore(store);

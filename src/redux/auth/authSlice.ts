@@ -43,55 +43,20 @@ const authSlice = createSlice({
     builder.addCase(register.pending, (state, action) => {
       state.isLoading = true;
       state.error = null;
+      state.isLoggedIn = false;
     });
     builder.addCase(register.rejected, (state, action: PayloadAction<any>) => {
       state.isLoading = false;
       state.error = action.payload;
+      state.isLoggedIn = false;
     });
     builder.addCase(register.fulfilled, (state, action) => {
       state.error = null;
       state.isLoading = false;
-      state.user = action.payload;
+      state.isLoggedIn = true;
+      state.user = action.payload.user;
       state.token = action.payload.token;
     });
-    // [login.pending]: (state, action) => {
-    //   state.isLoading = true;
-    // },
-    // [login.fulfilled]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.user = action.payload.user;
-    //   state.token = action.payload.token;
-    //   state.isLoggedIn = true;
-    // },
-    // [login.rejected]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.error = action.payload;
-    // },
-    // [logout.pending]: (state, action) => {
-    //   state.isLoading = true;
-    // },
-    // [logout.fulfilled]: (state, action) => {
-    //   state.user = { name: null, email: null };
-    //   state.token = null;
-    //   state.isLoggedIn = false;
-    //   state.isLoading = false;
-    // },
-    // [logout.rejected]: (state, action) => {
-    //   state.isLoading = false;
-    //   state.error = action.payload;
-    // },
-    // [getCurrentUser.pending]: (state, action) => {
-    //   state.isLoading = true;
-    // },
-    // [getCurrentUser.fulfilled]: (state, { payload }) => {
-    //   state.isLoading = false;
-    //   state.user = payload;
-    //   state.isLoggedIn = true;
-    //   console.log(payload);
-    // },
-    // [getCurrentUser.rejected]: (state, action) => {
-    //   state.isLoading = false;
-    // },
   },
 });
-export default authSlice.reducer;
+export const authReducer = authSlice.reducer;

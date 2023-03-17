@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-// import { register } from 'redux/auth/operations';
+import { register } from '../../redux/auth/authOperations';
+import { useAppDispatch } from '../../redux/store';
 import { Container, Form, Label } from './Registration.styled';
 
 const Registration = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     switch (e.target.name) {
       case 'name':
@@ -23,7 +23,7 @@ const Registration = () => {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const user = { name, email, password };
-    // dispatch(register(user));
+    dispatch(register(user));
     console.log(user);
   };
   return (
