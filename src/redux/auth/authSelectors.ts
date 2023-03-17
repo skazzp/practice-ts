@@ -7,3 +7,4 @@ interface Auth {
 //   auth: Auth;
 // }
 export const getIsloggedIn = (state: RootState) => state.auth.isLoggedIn;
+export const getIsLoading = (state: RootState) => state.auth.isLoading;

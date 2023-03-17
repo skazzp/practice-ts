@@ -29,8 +29,8 @@ const authPersistConfig = {
 };
 
 const rootReducer = combineReducers({
-  //   auth: persistReducer(authPersistConfig, authReducer),
-  auth: authReducer,
+  auth: persistReducer(authPersistConfig, authReducer),
+  // auth: authReducer,
   contacts: contactsReducer,
   filter: filterReducer,
 });
